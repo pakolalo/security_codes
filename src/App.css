@@ -1,38 +1,76 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Shadows Into Light", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+button {
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+html {
+  font-size: 62.5%;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 3em;
+  background: linear-gradient(90deg, #121216 0.000%, #121216 7.692%, #16171a calc(7.692% + 1px), #16171a 15.385%, #1a1b1f calc(15.385% + 1px), #1a1b1f 23.077%, #1f2023 calc(23.077% + 1px), #1f2023 30.769%, #232427 calc(30.769% + 1px), #232427 38.462%, #27282b calc(38.462% + 1px), #27282b 46.154%, #2b2c2f calc(46.154% + 1px), #2b2c2f 53.846%, #2f3033 calc(53.846% + 1px), #2f3033 61.538%, #323337 calc(61.538% + 1px), #323337 69.231%, #36373a calc(69.231% + 1px), #36373a 76.923%, #38393d calc(76.923% + 1px), #38393d 84.615%, #3b3c40 calc(84.615% + 1px), #3b3c40 92.308%, #3d3e42 calc(92.308% + 1px) 100.000%);
 }
 
-.App-link {
-  color: #61dafb;
+.item-container {
+    margin-top: 25px;
+    padding: 70px 25px;
+    width: 280px;
+    height: auto;
+    background-color: rgba(135, 135, 135, 0.2);
+    border: 3px solid #27f4d1;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2em;
+    color: white;
+}
+h2 {
+    font-size: 3.5rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+p {
+    font-size: 1.8rem;
+}
+
+.input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1em;
+}
+
+input::placeholder {
+    padding: 10px 5px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+button {
+    font-size: 1.8rem;
+    width: 90px;
+    height: 30px;
+    background-color: white;
+    border: 2px solid rgba(135, 135, 135, 100);
 }

@@ -1,7 +1,15 @@
 import React from 'react';
 
+// Security code constant used for validation
 const SECURITY_CODE = 'paradigma';
 
+/**
+ * UseState component - Demonstrates state management using React.useState hook
+ * Manages a security code verification flow with input validation and deletion confirmation.
+ * @param {Object} props - Component props
+ * @param {string} props.name - The name to display in the delete confirmation
+ * @returns {JSX.Element} The rendered component
+ */
 function UseState({ name }) {
     const [state, setState] = React.useState({
         value: '',
@@ -11,6 +19,10 @@ function UseState({ name }) {
         confirmed: false,
     });
 
+    /**
+     * Handles confirmation when the correct security code is entered.
+     * Sets error to false, loading to false, and confirmed to true.
+     */
     const onConfirm = () => {
         setState({ 
             ...state,
@@ -20,6 +32,10 @@ function UseState({ name }) {
         });
     };
 
+    /**
+     * Handles error state when an incorrect security code is entered.
+     * Sets error to true and loading to false.
+     */
     const onError = () => {
         setState({ 
             ...state,
@@ -28,6 +44,11 @@ function UseState({ name }) {
         });
     };
 
+    /**
+     * Handles input value changes from the security code input field.
+     * Updates the state with the new value entered by the user.
+     * @param {string} newValue - The new security code value
+     */
     const onWrite = (newValue) => {
         setState({ 
             ...state,
@@ -35,6 +56,10 @@ function UseState({ name }) {
         });
     };
 
+    /**
+     * Initiates the security code validation process.
+     * Sets loading to true which triggers the useEffect hook to verify the code.
+     */
     const onCheck = () => {
         setState({ 
             ...state,
@@ -42,6 +67,10 @@ function UseState({ name }) {
         });
     };
 
+    /**
+     * Confirms and completes the deletion process.
+     * Sets deleted to true.
+     */
     const onDelete = () => {
         setState({
             ...state,
@@ -49,6 +78,10 @@ function UseState({ name }) {
         });
     };
 
+    /**
+     * Resets the component state to initial values for a new operation.
+     * Clears the input, resets confirmation and deletion flags.
+     */
     const onReset = () => {
         setState({
             ...state,
@@ -58,6 +91,10 @@ function UseState({ name }) {
         });
     };
 
+    /**
+     * Effect hook that validates the security code after a 2-second delay when loading is active.
+     * Compares the entered value with the security code and calls onConfirm or onError accordingly.
+     */
     React.useEffect(() => {
         if(!!state.loading) {
             setTimeout(() => {
@@ -72,7 +109,7 @@ function UseState({ name }) {
 
     if(!state.deleted && !state.confirmed) {
         return (
-        <div>
+        <div className="item-container">
             <h2>Delete { name }</h2>
             <p>Please write the security code.</p>
             {(state.error && !state.loading) && (
@@ -81,9 +118,9 @@ function UseState({ name }) {
             { state.loading && (
                 <p>Loading...</p>
             )}
-            <div>
+            <div className="input-container">
                 <input 
-                placeholder="Security Code" 
+                placeholder="Security Code"
                 value={state.value}
                 onChange={(event) => {
                     onWrite(event.target.value)
@@ -100,28 +137,32 @@ function UseState({ name }) {
     } else if(state.confirmed && !state.deleted) {
         return(
             <React.Fragment>
-                <p>Do you want to proceed?</p>
-                <button
-                onClick={() => {
-                    onDelete();
-                }}
-                >Delete</button>
-                <button
-                onClick={() => {
-                    onReset();
-                }}
-                >Cancel</button>
+                <div className="item-container">
+                    <p>Do you want to proceed?</p>
+                    <button
+                    onClick={() => {
+                        onDelete();
+                    }}
+                    >Delete</button>
+                    <button
+                    onClick={() => {
+                        onReset();
+                    }}
+                    >Cancel</button>
+                    </div>
             </React.Fragment>
         );
     } else {
         return(
             <React.Fragment>
-                <p>Delete success</p>
-                <button
-                onClick={() => {
-                    onReset();
-                }}
-                >Reset</button>
+                <div className="item-container">
+                    <p>Delete success</p>
+                    <button
+                    onClick={() => {
+                        onReset();
+                    }}
+                    >Reset</button>
+                </div>
             </React.Fragment>
         );
     }
