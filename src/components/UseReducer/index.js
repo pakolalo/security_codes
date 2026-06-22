@@ -2,69 +2,16 @@ import React from 'react';
 
 const SECURITY_CODE = 'paradigma';
 
-function UseState({ name }) {
-    const [state, setState] = React.useState({
-        value: '',
-        error: false,
-        loading: false,
-        deleted: false,
-        confirmed: false,
-    });
-
-    const onConfirm = () => {
-        setState({ 
-            ...state,
-            error: false,
-            loading: false,
-            confirmed: true,
-        });
-    };
-
-    const onError = () => {
-        setState({ 
-            ...state,
-            error: true,
-            loading: false 
-        });
-    };
-
-    const onWrite = (newValue) => {
-        setState({ 
-            ...state,
-            value: newValue, 
-        });
-    };
-
-    const onCheck = () => {
-        setState({ 
-            ...state,
-            loading: true
-        });
-    };
-
-    const onDelete = () => {
-        setState({
-            ...state,
-            deleted: true
-        });
-    };
-
-    const onReset = () => {
-        setState({
-            ...state,
-            value: '',
-            confirmed: false,
-            deleted: false
-        });
-    };
+function UseReducer({ name }) {
+    const [state, dispatch] = React.useReducer(reducer, initialState);
 
     React.useEffect(() => {
         if(!!state.loading) {
             setTimeout(() => {
                 if(state.value === SECURITY_CODE) {
-                    onConfirm();
+                    dispatch({ type: 'CONFIRM' });
                 } else {
-                    onError();
+                    dispatch({ type: 'ERROR' });
                 }
             }, 2000);
         }
@@ -86,12 +33,13 @@ function UseState({ name }) {
                 placeholder="Security Code" 
                 value={state.value}
                 onChange={(event) => {
-                    onWrite(event.target.value)
+                    dispatch({ type: 'WRITE', payload: event.target.value });
+                    // onWrite(event.target.value);
                 }}
                 />
                 <button
                 onClick={() => {
-                    onCheck();
+                    dispatch({ type: 'CHECK' });
                 }}
                 >Check</button>
             </div>
@@ -103,12 +51,12 @@ function UseState({ name }) {
                 <p>Do you want to proceed?</p>
                 <button
                 onClick={() => {
-                    onDelete();
+                    dispatch({ type: 'DELETE' });
                 }}
                 >Delete</button>
                 <button
                 onClick={() => {
-                    onReset();
+                    dispatch({ type: 'RESET' });
                 }}
                 >Cancel</button>
             </React.Fragment>
@@ -119,7 +67,7 @@ function UseState({ name }) {
                 <p>Delete success</p>
                 <button
                 onClick={() => {
-                    onReset();
+                    dispatch({ type: 'RESET' });
                 }}
                 >Reset</button>
             </React.Fragment>
@@ -127,4 +75,53 @@ function UseState({ name }) {
     }
 }
 
-export { UseState };
+const initialState = {
+    value: '',
+    error: false,
+    loading: false,
+    deleted: false,
+    confirmed: false
+};
+
+const reducerObject = (state, payload) => ({
+    'ERROR': {
+        ...state,
+        error: true,
+        loading: false
+    },
+    'CHECK': {
+        ...state,
+        loading: true,
+    },
+    'CONFIRM': {
+        ...state,
+        error: false,
+        loading: false,
+        confirmed: true,
+    },
+    'WRITE': {
+        ...state,
+        value: payload,
+    },
+    'DELETE': {
+        ...state,
+        deleted: true
+    },
+    'RESET': {
+        ...state,
+        value: '',
+        confirmed: false,
+        deleted: false
+    }
+
+});
+
+const reducer = (state, action) => {
+    if (reducerObject(state)[action.type]) {
+        return reducerObject(state, action.payload)[action.type]
+    } else {
+        return state;
+    }
+};
+
+export { UseReducer };
